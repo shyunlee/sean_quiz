@@ -9,5 +9,9 @@ const submitFeedback = async (feedback) => {
   return await newFeedback.save().then(res => res)
 }
 
+const getAllFeedBacks = async () => {
+  return await Feedback.find()
+}
 
-module.exports = {submitFeedback}
+
+module.exports = {submitFeedback, getAllFeedBacks}
