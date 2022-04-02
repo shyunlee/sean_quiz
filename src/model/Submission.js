@@ -1,7 +1,7 @@
 const Mongoose = require('mongoose')
 const Schema = Mongoose.Schema
 const submissionSchema = new Mongoose.Schema({
-  user: {type: Schema.Types.ObjectId, ref: "User"},
+  userId: {type: Schema.Types.ObjectId, ref: "User"},
   category: {
     type: String,
     required: true,
@@ -15,15 +15,11 @@ const submissionSchema = new Mongoose.Schema({
       type: Schema.Types.ObjectId, 
       ref: "Quiz"
     }, 
-    result: {
-      type: Boolean
-    },
-    selected: {
-      type: String
-    }
+    result: Boolean,
+    selected: String,
   }],
   score: {
-    type: Number,
+    type: String,
     required: true
   },
   start_time: {

@@ -22,6 +22,7 @@ const getResultByUser = async (req, res) => {
 const getAllSubmissions = async (req, res) => {
   try {
     let data = await submissionRepo.getAllSubmissions()
+    console.log("data", data)
     res.status(200).json({data})
   } catch (error) {
     res.status(400).json({message: "something wrong"})

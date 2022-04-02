@@ -1,8 +1,10 @@
 const express = require('express')
+const {isAuth} = require('../middleware/auth')
+
 const router = express.Router()
 
 // controll landing page
-router.get('/', (req, res) => {
+router.get('/', isAuth, (req, res) => {
   
 })
 
