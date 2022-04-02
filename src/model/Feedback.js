@@ -12,7 +12,7 @@ const feedbackSchema = new Mongoose.Schema({
     max: 5
   },
   submitted_at: {
-    type: Date,
+    type: String,
     required: true
   },
 })

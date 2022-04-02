@@ -6,7 +6,7 @@ const submissionSchema = new Mongoose.Schema({
     type: String,
     required: true,
     enum: {
-      values: ["soccer", "baseball", "basketball"]
+      values: ["soccer", "baseball", "basketball"],
       message: "{VALUE} is not supported"
     }
   },
@@ -27,15 +27,15 @@ const submissionSchema = new Mongoose.Schema({
     required: true
   },
   start_time: {
-    type: Date,
+    type: String,
     required: true
   },
   end_time: {
-    type: Date,
+    type: String,
     required: true
   },
   submit_date: {
-    type: Date,
+    type: String,
     required: true
   }
 })
