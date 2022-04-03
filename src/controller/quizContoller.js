@@ -18,10 +18,10 @@ const takeTest = async (req, res) => {
 }
 
 // TODO: render result page
-const submitTest = async (req, res) => {
+const submitTest = async (req, res) => { 
   try {
-    console.log(req.body)
     let submit = req.body
+    submit.userId = req.userInfo.userId
     let quizzes = submit.quizzes
     quizzes = quizzes.map(item => {
       let obj = {
@@ -31,12 +31,11 @@ const submitTest = async (req, res) => {
       }
       return obj
     })
-    console.log(quizzes)
     let filtered = quizzes.filter(item => item.result)
     let score = `${filtered.length} out of ${quizzes.length}`
     submit = {...submit, quizzes, score}
     let result = await submissionRepo.submitTest(submit)
-    res.status(200).json({message: "submitted", data: result[0]})
+    res.status(200).json({message: "submitted", data: result})
   } catch (error) {
     res.status(400).json({message:"submission failed"})
   }

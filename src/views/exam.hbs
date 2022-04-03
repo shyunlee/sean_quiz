@@ -12,19 +12,58 @@
   <main class="main">
     <h2 class="category">{{category}}</h2>
     <div>
-
+      {{>timer}}
       {{>quiz}}
     </div> 
   </main>
   <script>
     let category = $('.category')[0].textContent
     $('.category')[0].textContent = category.toUpperCase()
+    $('.quiz_list').hide()
+    let startTime
+    let endTime
+    let interval
 
     // Ready Quiz
-    
+    $('.btn_start').on('click', () => {
+      startTime = new Date()
+      $('.start_quiz').hide()
+      let min = [1, 5]
+      let sec = [0, 1]
+      interval = setInterval(()=> {
+        if (!(min[0] === 0 && min[1] === 0 && sec[0] === 0 && sec[1] === 0)) {
+          if (sec[1] === 0) {
+            if (sec[0] === 0) {
+              sec[0] = 5
+            } else {
+              sec[0]--
+            }
+            sec[1] = 9
+          } else {
+            sec[1]--
+          }
+          if (sec[0] === 5 && sec[1] === 9) {
+            if (min[0] > 0 && min[1] === 0) {
+              min[0] = 0
+              min[1] = 9
+            } else {
+              min[1]--
+            }
+          }
+          
+          let minTime = min.join('')
+          let secTime = sec.join('')
+          $('.timer').html(`${minTime} : ${secTime}`)
+        } else {
+          clearInterval(interval)
+           $('.btn_submit').click()
+        }
+      }, 1100)
+      setTimeout(() => $('.quiz_list').show(), 1100)
+    })
 
     // Start Quiz
-    $('.btn_prev')[0].style.display = 'none'
+    $('.btn_prev').hide()
     let current = 0
     let solved = []
     let selected;
@@ -39,38 +78,70 @@
     }
 
     hideQuiz(quizList, current)
-
+    
+    // TODO
     $('.btn_submit').on('click', () => {
-       let isSubmit = confirm("Do you want to submit it?")
-       if (isSubmit) {
-         let submission = {
-           category,
-           quizzes: solved
-         }
-       }
+      clearInterval(interval)
+      let isSubmit
+      let submission = {
+        category
+      }
+      if (solved.length === 10) {
+        isSubmit = confirm("Do you want to submit it?")
+        if (isSubmit) {
+          submission = {...submission, quizzes:solved}
+        }
+      } else {
+        isSubmit = confirm("Time Over-Please submit your exam")
+        endTime= new Date()
+        if (isSubmit) {
+          for (let i = solved.length; i<quizList.length; i++) {
+            let add = {
+              _id: quizList[i].id,
+              answer: $(`#${quizList[0].id} .answer`)[0].textContent,
+              selected: ''
+            }
+            solved.push(add)
+          }
+           submission = {...submission, quizzes:solved}
+        }
+      }
+      submission.end_time = endTime.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:"numeric", minute:"numeric", second:"numeric"}), 
+      submission.start_time = startTime.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:"numeric", minute:"numeric", second:"numeric"}), 
+      $.ajax({
+          url: "http://localhost:3000/quiz/submit",
+          type:"POST",
+          data:JSON.stringify(submission),
+          contentType:"application/json; charset=utf-8",
+          xhrFields: { withCredentials: true },
+          success: function(res, status, xhr){
+           console.log(res)
+          },
+          error: function(res) {
+            console.log(res)
+          },
+        })
     })
 
     $('.btn_prev').on('click', (e) => {
       solved.pop()
       current--
       if (current === 0) {
-        $('.btn_prev')[0].style.display = 'none'
+        $('.btn_prev').hide()
       } 
       hideQuiz(quizList, current)
     })
 
     $('.radio_btn').on('click', (e) => {
-      selected = e.target
+      selected = e.target.parentElement.children[1]
     })
 
     $('.btn_next').on('click', (e) => {
       if (!selected) alert('Please select one of them')
       else {
         let quizId = $('.quiz:visible')[0].id
-        let answer = e.target.parentElement.parentElement.firstElementChild.textContent
-        let quiz = {_id: quizId, selected:selected.value, answer}
-        {{!-- selected.setAttribute("checked", true) --}}
-        {{!-- console.log(selected) --}}
+        let answer = selected.parentElement.parentElement.parentElement.firstElementChild.textContent
+        let quiz = {_id: quizId, selected:selected.textContent, answer}
         solved.push(quiz)
         current++
         if (current > 0) {
@@ -78,12 +149,12 @@
         }
         hideQuiz(quizList, current)
         if (current === quizList.length){
-          $('.btn_next')[0].style.display = 'none';
+          endTime = new Date()
+          $('.btn_next').hide()
           $('.btn_submit')[0].style.display = 'inline-block'
         }
         selected = undefined
       }
-
     })
   </script>
 </body>

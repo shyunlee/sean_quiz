@@ -7,9 +7,9 @@
       <p>{{this.question}}</p>
       <div>
         {{#each this.options}}
-        <div>
-          <input type="radio" value={{this}} class="radio_btn" name="select" />
-          <label for="">{{this}}</label>
+        <div class="options">
+          <input type="radio" class="radio_btn" name="select" />
+          <label >{{this}}</label>
         </div>
         {{/each}}
       </div>

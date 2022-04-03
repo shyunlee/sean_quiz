@@ -12,8 +12,8 @@ const submitTest = async (test) => {
   test = {...test, submit_date}
   let submission = new Submission(test)
   try {
-    await submission.save()
-    let result = await Submission.find().populate({path:"quizzes", populate:{path:"quiz", select:{"__v": 0}}})
+    let savedId = await submission.save().then(res => res._id)
+    let result = await Submission.find({_id: savedId}).populate({path:"quizzes", populate:{path:"quiz", select:{"__v": 0}}})
     return result
   } catch (error) {
     return error
