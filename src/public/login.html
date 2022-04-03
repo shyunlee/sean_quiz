@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <title>Login</title>
+</head>
+<body>
+  <div>
+    <h1>Login</h1>
+    <form>
+      <label for="input_email">Email</label>
+      <input type="text" class="input" id="input_email">
+      <label for="input_password">Password</label>
+      <input type="text" class="input" id="input_password">
+      <button class="btn" id="login">Login</button>
+    </form>
+    <button class="btn_gotosignup btn">Go to Signup</button>
+    <button class="btn_gotomain btn">Go To Main</button>
+  </div>
+  <script>
+    $(document).ready(function(){
+      if (document.cookie) {
+        $.ajax({
+          url: "http://localhost:3000/me",
+          type:"GET",
+          contentType:"application/json; charset=utf-8",
+          xhrFields: { withCredentials: true },
+          success: function(res, status, xhr){
+            window.location = res.redirect
+          },
+          error: function(res) {
+            console.log(res)
+          },
+        })
+      }
+
+       $('#login').on('click',function(e) {
+        e.preventDefault()
+        $.ajax({
+          url: "http://localhost:3000/user/login",
+          type:"POST",
+          xhrFields: { withCredentials: true },
+          data:JSON.stringify({
+            email: $('#input_email').val(),
+            password: $('#input_password').val()
+          }),
+          contentType:"application/json; charset=utf-8",
+          success: function(res, status, xhr){
+            console.log(res)
+            window.location = res.redirect
+          },
+          error:function(res){
+            alert(res.responseJSON.message)
+          }
+        })
+       })
+
+      $('.btn_gotosignup').on('click', () => {
+        window.location = '/signup'
+      })
+
+      $('.btn_gotomain').on('click', () => {
+        window.location = '/home'
+      })
+    })
+</script>
+</body>
+</html>

@@ -13,22 +13,25 @@ const takeTest = async (req, res) => {
   let category = req.params.category
   let result = await quizRepo.getQuizByCategory(category)
   let data = sortRandomLimit(result)
-  res.status(200).json({data})
+  let userInfo = req.userInfo
+  res.render('exam', {userInfo,data, category})
 }
 
 // TODO: render result page
 const submitTest = async (req, res) => {
   try {
+    console.log(req.body)
     let submit = req.body
     let quizzes = submit.quizzes
     quizzes = quizzes.map(item => {
       let obj = {
-        quiz:item.quiz._id,
-        result: item.quiz.answer === item.selected?true:false,
+        quiz:item._id,
+        result: item.answer === item.selected?true:false,
         selected: item.selected
       }
       return obj
     })
+    console.log(quizzes)
     let filtered = quizzes.filter(item => item.result)
     let score = `${filtered.length} out of ${quizzes.length}`
     submit = {...submit, quizzes, score}

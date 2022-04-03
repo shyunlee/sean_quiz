@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <title>Quiz</title>
+</head>
+<body>
+  {{>nav}}
+  <main class="main">
+    <h2 class="category">{{category}}</h2>
+    <div>
+
+      {{>quiz}}
+    </div> 
+  </main>
+  <script>
+    let category = $('.category')[0].textContent
+    $('.category')[0].textContent = category.toUpperCase()
+
+    // Ready Quiz
+    
+
+    // Start Quiz
+    $('.btn_prev')[0].style.display = 'none'
+    let current = 0
+    let solved = []
+    let selected;
+    let quizList = $('.quiz')
+    function hideQuiz(arr, idx) {
+      for (let i = 0; i<arr.length; i++) {
+        if (i === idx) arr[i].style.display="block"
+        else {
+          arr[i].style.display='none'
+        }
+      }
+    }
+
+    hideQuiz(quizList, current)
+
+    $('.btn_submit').on('click', () => {
+       let isSubmit = confirm("Do you want to submit it?")
+       if (isSubmit) {
+         let submission = {
+           category,
+           quizzes: solved
+         }
+       }
+    })
+
+    $('.btn_prev').on('click', (e) => {
+      solved.pop()
+      current--
+      if (current === 0) {
+        $('.btn_prev')[0].style.display = 'none'
+      } 
+      hideQuiz(quizList, current)
+    })
+
+    $('.radio_btn').on('click', (e) => {
+      selected = e.target
+    })
+
+    $('.btn_next').on('click', (e) => {
+      if (!selected) alert('Please select one of them')
+      else {
+        let quizId = $('.quiz:visible')[0].id
+        let answer = e.target.parentElement.parentElement.firstElementChild.textContent
+        let quiz = {_id: quizId, selected:selected.value, answer}
+        {{!-- selected.setAttribute("checked", true) --}}
+        {{!-- console.log(selected) --}}
+        solved.push(quiz)
+        current++
+        if (current > 0) {
+          $('.btn_prev')[0].style.display = 'inline-block'
+        }
+        hideQuiz(quizList, current)
+        if (current === quizList.length){
+          $('.btn_next')[0].style.display = 'none';
+          $('.btn_submit')[0].style.display = 'inline-block'
+        }
+        selected = undefined
+      }
+
+    })
+  </script>
+</body>
+</html>

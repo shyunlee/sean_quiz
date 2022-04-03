@@ -1,0 +1,24 @@
+<section class="quiz_list">
+  <h3>Quiz</h3>
+  <ol type="1">
+    {{#each data}}  
+    <li class="quiz" id={{this._id}}>
+      <div style="display:none;" class="answer">{{this.answer}}</div>
+      <p>{{this.question}}</p>
+      <div>
+        {{#each this.options}}
+        <div>
+          <input type="radio" value={{this}} class="radio_btn" name="select" />
+          <label for="">{{this}}</label>
+        </div>
+        {{/each}}
+      </div>
+    </li>
+    {{/each}}
+  </ol>
+  <div>
+    <button class="btn_prev">Privious</button>
+    <button class="btn_next">Next</button>
+    <button class="btn_submit" style="display:none">Submit</button>
+  </div>
+</section>

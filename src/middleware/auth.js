@@ -1,9 +1,16 @@
 const jwt = require('jsonwebtoken')
+const config = require('../config')
 
-const isAuth = async (req, res) => {
+// user validataion and redirect to login page if invalid
+const isAuth = async (req, res, next) => {
   let token = req.cookies['token']
-  console.log(token)
-  return res.sendStatus(200)
+  try {
+    let userInfo =  jwt.verify(token, config.jwt.secretKey)
+    req.userInfo = userInfo
+    next()
+  } catch (error) {
+    next()
+  }
 }
 
 module.exports = {isAuth}
