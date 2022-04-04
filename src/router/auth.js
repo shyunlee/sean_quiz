@@ -1,5 +1,6 @@
 const express = require('express')
 const authController = require('../controller/authConroller')
+const { isAuth } = require('../middleware/auth')
 
 
 const router = express.Router()
@@ -14,7 +15,7 @@ router.post('/signup', authController.signup)
 // TODO: insert middleware
 router.get('/logout', authController.logout)
 
-router.get('/me', authController.me)
+router.get('/me', isAuth, authController.me)
 
 
 module.exports = {authRouter: router}

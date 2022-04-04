@@ -13,4 +13,15 @@ const isAuth = async (req, res, next) => {
   }
 }
 
-module.exports = {isAuth}
+const validation = async (req, res, next) => {
+  let token = req.cookies['token']
+  try {
+    let userInfo =  jwt.verify(token, config.jwt.secretKey)
+    req.userInfo = userInfo
+    next()
+  } catch (error) {
+    res.status(401).json({message: "user not valid"})
+  }
+}
+
+module.exports = {isAuth, validation}

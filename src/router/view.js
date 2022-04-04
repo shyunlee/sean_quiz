@@ -3,15 +3,6 @@ const {isAuth} = require('../middleware/auth')
 const config = require('../config')
 const router = express.Router()
 
-// controll landing page
-router.get('/me', isAuth, (req, res) => {
-  console.log(req.userInfo)
-  if (req.userInfo) {
-    res.status(200).json({redirect: '/home'})
-  } else {
-    res.status(401).json({message: "user invalid", redirect: '/login'})
-  }
-})
 
 // view login page
 router.get('/login', (req, res) => {
@@ -34,6 +25,7 @@ router.get('/home', isAuth, (req, res) => {
   }
   res.render("home", {userInfo})
 })
+
 
 
 module.exports = {viewRouter: router}

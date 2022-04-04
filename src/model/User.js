@@ -13,7 +13,14 @@ const userSchema = new Mongoose.Schema({
     type: String,
     required: true
   },
-  level: String
+  level: {
+    type:String,
+    required: true,
+    enum: {
+      values:['admin', 'member'],
+      message: '{VALUE} is not valid'
+    }
+  }
 })
 
 const User = Mongoose.model("User", userSchema)

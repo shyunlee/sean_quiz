@@ -11,15 +11,15 @@
   <script>
     $(document).ready(function(){
         $.ajax({
-          url: "http://localhost:3000/me",
+          url: "http://localhost:3000/user/me",
           type:"GET",
           contentType:"application/json; charset=utf-8",
           xhrFields: { withCredentials: true },
           success: function(res, status, xhr){
-            window.location = res.redirect
+            window.location = '/home'
           },
           error:function(res){
-            window.location = res.responseJSON.redirect
+            window.location = '/login'
           }
         })
     })

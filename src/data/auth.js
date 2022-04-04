@@ -6,7 +6,7 @@ const signup = async (user) => {
   let isExsist = await User.findOne({email: user.email})
   if (isExsist) return false
   let hashed = await bcrypt.hash(user.password, 10)
-  user = {...user, password:hashed}
+  user = {...user, password:hashed, level: 'member'}
   let newUser = new User(user)
   return await newUser.save()
 }

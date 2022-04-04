@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="./css/feedback.css">
+  <title>Feedback</title>
+</head>
+<body>
+  {{>nav}}
+  <main class="main">
+    <section>
+      <form>
+        <div class="star_div"></div>
+        <textarea name="" id="feedback_content" cols="50" rows="10"></textarea>
+        <div><button class="submit_btn btn">Submit</button></div>
+      </form>
+    </section>
+  </main>
+  <script>
+    $(document).ready(function () {
+      let stars
+      let starContainer = $('.star_container') 
+      let starDiv = $('.star_div') 
+      function starRating(count) {
+        for (let i = 1; i<6; i++) {
+          let img;
+          if (i <= count) {
+            img = $('<img>').attr('src', './assets/star.png')
+          } else {
+            img = $('<img>').attr('src', './assets/empty_star.png')
+          }
+          img.addClass('img_star')
+          starDiv.append(img)
+          img.attr('id', `star-${i}`)
+        }
+      }
+      starRating(3)
+      $('.star_div').on('click', (e) => {
+        let starId = Number(e.target.id.split('-')[1])
+        stars = starId
+        starDiv.html('')
+        starDiv.append(starRating(starId))
+      })
+
+      $('.submit_btn').on('click', (e) => {
+        e.preventDefault()
+        let content = $('#feedback_content').val()
+
+        $.ajax({
+          url: "http://localhost:3000/feedback/submit",
+          type: "POST",
+          data:JSON.stringify({
+            content,
+            stars
+          }),
+          xhrFields: { withCredentials: true },
+          contentType:"application/json; charset=utf-8",
+          success: function (res, status, xhr) {
+            alert('Submitted')
+            location.reload()
+          },
+          error: function (res) {
+            console.log(res)
+          }
+        })
+      })
+    })
+  </script>
+</body>
+</html>

@@ -5,7 +5,7 @@ const { quizRouter } = require('./router/quiz')
 const { feedbackRouter } = require('./router/feedback')
 const { adminRouter } = require('./router/admin')
 const { viewRouter } = require('./router/view')
-const { isAuth } = require('./middleware/auth')
+const { isAuth, validation } = require('./middleware/auth')
 const config = require('./config')
 const hbs = require('hbs')
 require('./db/db')
@@ -26,10 +26,10 @@ app.use(express.static(publicPath));
 app.use('/user', authRouter)
 
 // taking quizzes and submit the test
-app.use('/quiz', isAuth, quizRouter)
+app.use('/quiz', validation, quizRouter)
 
 // customer can leave feedbacks
-app.use('/feedback', feedbackRouter)
+app.use('/feedback', validation, feedbackRouter)
 
 // adming can see users, submissions, feedback list
 app.use('/admin', adminRouter)
