@@ -96,7 +96,8 @@
             submission = {...submission, quizzes:solved}
           }
         } else {
-          isSubmit = confirm("Time Over-Please submit your exam")
+          alert("Time Over-Please submit your exam")
+          isSubmit = true
           endTime= new Date()
           if (isSubmit) {
             for (let i = solved.length; i<quizList.length; i++) {

@@ -17,7 +17,6 @@ const getAllUsers = async (req, res) => {
 // TODO: get all quiz result by user - using submission
 const getResultByUser = async (req, res) => {
   let userId = req.params.userId
-  console.log(userId)
   res.sendStatus(200)
 }
 
@@ -36,7 +35,6 @@ const getSubmissionByUser = async (req, res) => {
     let userId = req.params.userId
     let userInfo = req.userInfo
     let data = await submissionRepo.getSubmissionByUser(userId)
-    console.log("result" , data)
     res.render('submitList', {userInfo, data})
   } catch(error) {
     res.status(400).json({message: "find submit by user wrong"})

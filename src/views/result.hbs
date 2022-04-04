@@ -45,7 +45,6 @@
         let selected = $(`#${item.id} .selected`)[0].textContent
         let answer = $(`#${item.id} .answer`)[0].textContent
         let correction = $(`#${item.id} .correction`)[0]
-        console.log(correction)
         if (selected === answer) {
           correction.textContent = "Correct"
           correction.setAttribute('class', 'correct')

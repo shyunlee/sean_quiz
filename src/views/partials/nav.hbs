@@ -67,7 +67,6 @@
           contentType:"application/json; charset=utf-8",
           success: function (res, status, xhr) {
             deleteCookie('token')
-            console.log(document.cookie)
             window.location = '/login'
           },
           error: function (res) {
@@ -78,7 +77,6 @@
     })
 
     $('.menu_btn').on('click', (e) => {
-      console.log(isLogin)
       if (isLogin) {
         let content = e.target.textContent
         if (content === 'Feedback') {
@@ -107,7 +105,6 @@
 
     function deleteCookie(name, path, domain) {
       if (getCookie(name)) {
-        console.log(getCookie(name))
         document.cookie =
           name +
           "=" +

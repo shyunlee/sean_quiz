@@ -4,7 +4,6 @@ const submissionRepo = require('../data/submission')
 
 const addQuiz = async (req, res) => {
   const result = await quizRepo.addQuiz(req.body)
-  console.log(result)
   res.sendStatus(200)
 }
 
@@ -41,7 +40,7 @@ const submitTest = async (req, res) => {
   }
 }
 
-const getReult = async (req, res) => {
+const getResult = async (req, res) => {
   let userInfo = req.userInfo
   let submitId = req.params.submitId
   let result = await submissionRepo.findSubmissionById(submitId)
@@ -63,4 +62,4 @@ const sortRandomLimit = (arr) => {
 
 
 
-module.exports= {addQuiz, takeTest, submitTest, getReult}
+module.exports= {addQuiz, takeTest, submitTest, getResult}

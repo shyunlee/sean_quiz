@@ -6,9 +6,9 @@ const login = async (req, res) => {
   let user = req.body
   let arr = Object.values(user)
   let isAllFilled = arr.every(item => item)
-  if (!isAllFilled) return res.status(400).json({message: "some values are missing"})
+  if (!isAllFilled) return res.status(400).json({message: "some inputs are missing"})
   let result = await authRepo.login(user)
-  if (!result) return res.status(400).json({message: "some values are missing"})
+  if (!result) return res.status(400).json({message: "some inputs are missing"})
   let data = {email: result.email, username: result.username, userId: result._id, level: result.level}
   const token = createToken(data)
   res.cookie('token', token)
@@ -19,7 +19,7 @@ const signup = async (req, res) => {
   let user = req.body
   let arr = Object.values(user)
   let isAllFilled = arr.every(item => item)
-  if (!isAllFilled) return res.status(400).json({message: "some values are missing"})
+  if (!isAllFilled) return res.status(400).json({message: "some inputs are missing"})
   try {
     let result = await authRepo.signup(user)
     let data = {email: result.email, username: result.username, userId: result._id, level: result.level}
@@ -27,7 +27,7 @@ const signup = async (req, res) => {
     res.cookie('token', token)
     res.status(200).json({message: 'login succeeded', redirect:'/home'}) 
   } catch (error) {
-    return res.status(400).json({message: "some values are missing"})
+    return res.status(400).json({message: "some inputs are missing"})
   }
 }
 
