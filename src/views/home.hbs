@@ -14,9 +14,11 @@
    {{>selection}}
   </main>
   <script>
-    $('.quiz_img img').on('click', (e) => {
-      let category = e.target.alt
-      window.location = `/quiz/${category}`
+    $(document).ready(function () {
+      $('.quiz_img img').on('click', (e) => {
+        let category = e.target.alt
+        window.location = `/quiz/${category}`
+      })
     })
   </script>
 </body>

@@ -8,9 +8,29 @@
     <span>Baseball</span>
   </div>
   <div class="nav_control">
-    <p>Welcome {{userInfo.username}}</p>
+    <p>Welcome <span id="username">{{userInfo.username}}</span></p>
     <button class="nav_login">Login</button>
     <button class="nav_signup">Signup</button>
     <button class="nav_logout">Logout</button>
   </div>
 </nav>
+<script>
+  $(document).ready(function () {
+    let userName = $('#username')[0].textContent
+    let login = $('.nav_login')
+    let signup = $('.nav_signup')
+    let logout = $('.nav_logout')
+    if (userName === '') {
+      logout.hide()
+      login.show()
+      signup.show()
+    } else {
+      logout.show()
+      login.hide()
+      signup.hide()
+    }
+    login.on('click', () => console.log('login'))
+    signup.on('click', () => console.log('signup'))
+    logout.on('click', () => console.log('logout'))
+  })
+</script>

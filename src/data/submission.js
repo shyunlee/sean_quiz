@@ -13,12 +13,20 @@ const submitTest = async (test) => {
   let submission = new Submission(test)
   try {
     let savedId = await submission.save().then(res => res._id)
-    let result = await Submission.find({_id: savedId}).populate({path:"quizzes", populate:{path:"quiz", select:{"__v": 0}}})
-    return result
+    // let result = await Submission.find({_id: savedId}).populate({path:"quizzes", populate:{path:"quiz", select:{"__v": 0}}})
+    return savedId
   } catch (error) {
     return error
   }
-
 }
 
-module.exports = {getAllSubmissions, submitTest}
+const findSubmissionById = async (id) => {
+  try {
+    let result = await Submission.find({_id: id}).populate({path:"quizzes", populate:{path:"quiz", select:{"__v": 0}}})
+    return result
+  } catch (error) {
+    return false
+  }
+}
+
+module.exports = {getAllSubmissions, submitTest, findSubmissionById}

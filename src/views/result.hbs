@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <title>Home</title>
+</head>
+<body>
+  {{>nav}}
+  <main class="main">
+    <section class="result">
+      <h2>Quiz Result</h2>
+      <p>Submiited At : {{data.submit_date}}</p>
+      <p>Started At   : {{data.start_time}}</p>
+      <p>Ended At     : {{data.end_time}}</p>
+      <p>Score        : {{data.score}}</p>
+      <ol type="1">
+      {{#each data.quizzes}}  
+      <li class="quiz" id={{this.quiz._id}}>
+        <p>{{this.quiz.question}}</p>
+        <div>
+          {{#each this.quiz.options}}
+          <div class="options">
+            <input type="radio" class="radio_btn" />
+            <label >{{this}}</label>
+          </div>
+          {{/each}}
+        </div>
+        <div class="selected" style="display:none">{{this.selected}}</div>
+        <div>Answer: <span class="answer">{{this.quiz.answer}}</span></div>
+        <div class="correction"></div>
+      </li>
+      {{/each}}
+    </ol>
+    </section>
+  </main>
+  <script>
+    $(document).ready(function () {
+      let quizList = $('.quiz')
+      for (let i = 0; i<quizList.length; i++) {
+        let item = quizList[i]
+        let selected = $(`#${item.id} .selected`)[0].textContent
+        let answer = $(`#${item.id} .answer`)[0].textContent
+        let correction = $(`#${item.id} .correction`)[0]
+        console.log(correction)
+        if (selected === answer) {
+          correction.textContent = "Correct"
+        } else {
+          correction.textContent = "Wrong"
+        }
+        let list = $(`#${item.id} .options`)
+        for (let j = 0; j<list.length; j++) {
+          if (selected === list[j].children[1].textContent) {
+            list[j].children[0].setAttribute("checked","true")
+          } else {
+            list[j].children[0].setAttribute("disabled","true")
+          }
+        }
+      }
+    })
+  </script>
+</body>
+</html>

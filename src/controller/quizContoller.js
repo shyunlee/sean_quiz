@@ -41,6 +41,14 @@ const submitTest = async (req, res) => {
   }
 }
 
+const getReult = async (req, res) => {
+  let userInfo = req.userInfo
+  let quizId = req.params.quizId
+  let result = await submissionRepo.findSubmissionById(quizId)
+  let data = result[0]
+  res.render('result', {userInfo, data})
+}
+
 const sortRandomLimit = (arr) => {
   let obj = {}
   let result = []
@@ -55,4 +63,4 @@ const sortRandomLimit = (arr) => {
 
 
 
-module.exports= {addQuiz, takeTest, submitTest}
+module.exports= {addQuiz, takeTest, submitTest, getReult}
