@@ -23,7 +23,7 @@ const login = async (user) => {
 }
 
 const getAllUsers = async () => {
-  return await User.find().select({"password": 0, "__v": 0} )
+  return await User.find().select({"password": 0, "__v": 0})
 }
 
 

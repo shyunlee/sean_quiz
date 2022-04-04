@@ -6,6 +6,10 @@ const getAllSubmissions = async () => {
   return Submission.find().populate({path: 'userId', select: {"password": 0, "__v": 0}}).populate({path:"quizzes", populate:{path:"quiz", select:{"__v": 0}}})
 }
 
+const getSubmissionByUser = async (userId) => {
+  return Submission.find({userId}).populate({path: 'userId', select: {"password": 0, "__v": 0}}).populate({path:"quizzes", populate:{path:"quiz", select:{"__v": 0}}})
+}
+
 const submitTest = async (test) => {
   let now = new Date()
   let submit_date = now.toLocaleDateString('en-US', config.date.options)
@@ -29,4 +33,13 @@ const findSubmissionById = async (id) => {
   }
 }
 
-module.exports = {getAllSubmissions, submitTest, findSubmissionById}
+const countSubmitByUser = async (userId) => {
+  try {
+    let result = await Submission.find({userId}).count()
+    return result
+  } catch (error) {
+    return false
+  }
+}
+
+module.exports = {getAllSubmissions, submitTest, findSubmissionById, countSubmitByUser, getSubmissionByUser}

@@ -43,8 +43,8 @@ const submitTest = async (req, res) => {
 
 const getReult = async (req, res) => {
   let userInfo = req.userInfo
-  let quizId = req.params.quizId
-  let result = await submissionRepo.findSubmissionById(quizId)
+  let submitId = req.params.submitId
+  let result = await submissionRepo.findSubmissionById(submitId)
   let data = result[0]
   res.render('result', {userInfo, data})
 }

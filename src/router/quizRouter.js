@@ -11,7 +11,7 @@ router.get('/:category', quizController.takeTest)
 // when user submit the quizzes and view result
 router.post('/submit', quizController.submitTest)
 
-router.get('/result/:quizId', quizController.getReult)
+router.get('/result/:submitId', quizController.getReult)
 
 router.post('/add', quizController.addQuiz)
 

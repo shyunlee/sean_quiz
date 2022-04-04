@@ -5,20 +5,27 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="/css/login.css">
   <title>Login</title>
 </head>
 <body>
-  <div>
-    <h1>Login</h1>
-    <form>
-      <label for="input_email">Email</label>
-      <input type="text" class="input" id="input_email">
-      <label for="input_password">Password</label>
-      <input type="text" class="input" id="input_password">
-      <button class="btn" id="login">Login</button>
-    </form>
-    <button class="btn_gotosignup btn">Go to Signup</button>
-    <button class="btn_gotomain btn">Go To Main</button>
+  <div class="login_container">
+    <div class="login_box">
+      <h2>Login</h2>
+      <form class="login_form">
+        <label for="input_email">Email</label>
+        <input type="text" class="input" id="input_email">
+        <label for="input_password">Password</label>
+        <input type="password" class="input" id="input_password">
+        <div class="login_btn">
+          <button class="btn" id="login">Login</button>
+        </div>
+      </form>
+      <div class="login_btn_control">
+        <button class="btn_gotosignup btn">Go to Signup</button>
+        <button class="btn_gotomain btn">Go To Main</button>
+      </div>
+    </div>
   </div>
   <script>
     $(document).ready(function(){

@@ -1,10 +1,10 @@
 const express = require('express')
 const cookieParser = require('cookie-parser')
-const { authRouter } = require('./router/auth')
-const { quizRouter } = require('./router/quiz')
-const { feedbackRouter } = require('./router/feedback')
-const { adminRouter } = require('./router/admin')
-const { viewRouter } = require('./router/view')
+const { authRouter } = require('./router/authRouter')
+const { quizRouter } = require('./router/quizRouter')
+const { feedbackRouter } = require('./router/feedbackRouter')
+const { adminRouter } = require('./router/adminRouter')
+const { viewRouter } = require('./router/viewRouter')
 const { isAuth, validation } = require('./middleware/auth')
 const config = require('./config')
 const hbs = require('hbs')
@@ -32,7 +32,7 @@ app.use('/quiz', validation, quizRouter)
 app.use('/feedback', validation, feedbackRouter)
 
 // adming can see users, submissions, feedback list
-app.use('/admin', adminRouter)
+app.use('/admin', validation, adminRouter)
 
 // view web pages
 app.use('/', viewRouter)

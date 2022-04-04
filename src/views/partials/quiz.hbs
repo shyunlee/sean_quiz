@@ -1,10 +1,10 @@
 <section class="quiz_list">
-  <h3>Quiz</h3>
+  <h2>Quiz</h2>
   <ol type="1">
     {{#each data}}  
     <li class="quiz" id={{this._id}}>
       <div style="display:none;" class="answer">{{this.answer}}</div>
-      <p>{{this.question}}</p>
+      <p class="quiz_question">{{this.question}}</p>
       <div>
         {{#each this.options}}
         <div class="options">
@@ -16,7 +16,7 @@
     </li>
     {{/each}}
   </ol>
-  <div>
+  <div class="btn_control">
     <button class="btn_prev">Privious</button>
     <button class="btn_next">Next</button>
     <button class="btn_submit" style="display:none">Submit</button>

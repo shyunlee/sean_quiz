@@ -2,16 +2,18 @@
   <div class="nav_logo">
     Sean's Quiz
   </div>
-  <div class="nav_menu">
-    <span class="menu_btn">Soccer</span>
-    <span class="menu_btn">Basketball</span>
-    <span class="menu_btn">Baseball</span>
-    <span class="menu_btn">Feedback</span>
-  </div>
-  <div class="nav_admin">
-    <span class="admin_btn">Feedback List</span>
-    <span class="admin_btn">User List</span>
-    <span class="admin_btn">Submission List</span>
+  <div class="nav_center">
+    <div class="nav_menu">
+      <span class="menu_btn">Soccer</span>
+      <span class="menu_btn">Basketball</span>
+      <span class="menu_btn">Baseball</span>
+      <span class="menu_btn">Feedback</span>
+    </div>
+    <div class="nav_admin">
+      <span class="admin_btn">Feedback List</span>
+      <span class="admin_btn">User List</span>
+      <span class="admin_btn">Submission List</span>
+    </div>
   </div>
   <div class="nav_control">
     <p>Welcome <span id="username">{{userInfo.username}}</span></p>
@@ -22,6 +24,7 @@
 </nav>
 <script>
   $(document).ready(function () {
+    let isLogin = true
     $.ajax({
       url: "http://localhost:3000/user/me",
       type:"GET",
@@ -39,6 +42,7 @@
         }
       },
       error:function(res){
+        isLogin=false
         $('.nav_admin').hide()
         logout.hide()
         login.show()
@@ -49,27 +53,74 @@
     let login = $('.nav_login')
     let signup = $('.nav_signup')
     let logout = $('.nav_logout')
-    {{!-- if (userName === '') {
-      logout.hide()
-      login.show()
-      signup.show()
-    } else {
-      logout.show()
-      login.hide()
-      signup.hide()
-    } --}}
+    let logo = $('.nav_logo')
+    logo.on('click', () => window.location = '/home')
     login.on('click', () => window.location = '/login')
     signup.on('click', () => window.location = '/signup')
-    logout.on('click', () => console.log('logout'))
-
-    $('.menu_btn').on('click', (e) => {
-      let content = e.target.textContent
-      if (content === 'Feedback') {
-        window.location = '/feedback'
-      } else {
-        let category = content.toLowerCase()
-        window.location = `/quiz/${category}`
+    logout.on('click', () => {
+      let wantLogout = confirm('Do you want to logout?')
+      if (wantLogout) {
+        $.ajax({
+          url: "http://localhost:3000/user/me",
+          type: "GET",
+          xhrFields: { withCredentials: true },
+          contentType:"application/json; charset=utf-8",
+          success: function (res, status, xhr) {
+            deleteCookie('token')
+            console.log(document.cookie)
+            window.location = '/login'
+          },
+          error: function (res) {
+            console.log(res)
+          }
+        })
       }
     })
+
+    $('.menu_btn').on('click', (e) => {
+      console.log(isLogin)
+      if (isLogin) {
+        let content = e.target.textContent
+        if (content === 'Feedback') {
+          window.location = '/feedback'
+        } else {
+          let category = content.toLowerCase()
+          window.location = `/quiz/${category}`
+        }
+      } else {
+        alert('plase login first')
+      }
+    })
+
+    $('.admin_btn').on('click', (e) => {
+      let clicked = e.target.textContent
+      let endpoint
+      if (clicked === 'Feedback List') {
+        endpoint = '/admin/feedback'
+      } else if (clicked === 'User List') {
+        endpoint = '/admin/users'
+      } else if (clicked === 'Submission List') {
+        endpoint = '/admin/submission'
+      }
+      window.location = endpoint
+    })
+
+    function deleteCookie(name, path, domain) {
+      if (getCookie(name)) {
+        console.log(getCookie(name))
+        document.cookie =
+          name +
+          "=" +
+          (path ? ";path=" + path : "") +
+          (domain ? ";domain=" + domain : "") +
+          ";expires=Thu, 01 Jan 1970 00:00:01 GMT";
+      }
+    }
+
+    function getCookie(name) {
+      return document.cookie.split(";").some((c) => {
+        return c.trim().startsWith(name + "=");
+      });
+    }
   })
 </script>

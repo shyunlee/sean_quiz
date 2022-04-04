@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  <title>User List</title>
+</head>
+<body>
+  {{>nav}}
+  <main class="main">
+    <div class="user_container">
+      {{#each data}}
+      <div class="user_list" id={{this._id}}>
+        <div>{{this.level}}</div>
+        <div>{{this.email}}</div>
+        <div>{{this.username}}</div>
+      </div>
+      {{/each}}
+    </div>
+  </main>
+  <script>
+    $(document).ready(function () {
+      let userList = $('.user_list')
+      userList.on('click', (e) => {
+        let userId = e.target.parentElement.id
+        $.ajax({
+          url: `http://localhost:3000/admin/submission/count/${userId}`,
+          type: "GET",
+          xhrFields: { withCredentials: true },
+          contentType:"application/json; charset=utf-8",
+          success: function (res, status, xhr) {
+            if (res.count === 0) alert('no submission yet for this user')
+            else {
+              window.location = `/admin/submission/${userId}`
+            } 
+          },
+          error: function (res) {
+            console.log(res)
+          }
+        })
+      })
+    })
+  </script>
+</body>
+</html>

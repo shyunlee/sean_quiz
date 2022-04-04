@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
   <title>Home</title>
 </head>
 <body>
@@ -12,10 +13,10 @@
   <main class="main">
     <section class="result">
       <h2>Quiz Result</h2>
-      <p>Submiited At : {{data.submit_date}}</p>
-      <p>Started At   : {{data.start_time}}</p>
-      <p>Ended At     : {{data.end_time}}</p>
-      <p>Score        : {{data.score}}</p>
+      <p class="result_time">Submiited At : {{data.submit_date}}</p>
+      <p class="result_time">Started At   : {{data.start_time}}</p>
+      <p class="result_time">Ended At     : {{data.end_time}}</p>
+      <p class="result_score">Score        : {{data.score}}</p>
       <ol type="1">
       {{#each data.quizzes}}  
       <li class="quiz" id={{this.quiz._id}}>
@@ -29,7 +30,7 @@
           {{/each}}
         </div>
         <div class="selected" style="display:none">{{this.selected}}</div>
-        <div>Answer: <span class="answer">{{this.quiz.answer}}</span></div>
+        <div class="answer_div">Answer: <span class="answer">{{this.quiz.answer}}</span></div>
         <div class="correction"></div>
       </li>
       {{/each}}
@@ -47,6 +48,7 @@
         console.log(correction)
         if (selected === answer) {
           correction.textContent = "Correct"
+          correction.setAttribute('class', 'correct')
         } else {
           correction.textContent = "Wrong"
         }

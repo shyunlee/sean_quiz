@@ -5,8 +5,10 @@ const feedbackRepo = require('../data/feedback')
 
 const getAllUsers = async (req, res) => {
   try {
+    let userInfo = req.userInfo
+    console.log(userInfo)
     let data = await authRepo.getAllUsers()
-    res.status(200).json({data})
+    res.render('userList', {userInfo, data})
   } catch (error) {
     res.status(400).json({message: "something wrong"})
   }
@@ -21,9 +23,31 @@ const getResultByUser = async (req, res) => {
 
 const getAllSubmissions = async (req, res) => {
   try {
+    let userInfo = req.userInfo
     let data = await submissionRepo.getAllSubmissions()
-    console.log("data", data)
-    res.status(200).json({data})
+    res.render('submitList', {userInfo, data})
+  } catch (error) {
+    res.status(400).json({message: "something wrong"})
+  }
+}
+
+const getSubmissionByUser = async (req, res) => {
+  try {
+    let userId = req.params.userId
+    let userInfo = req.userInfo
+    let data = await submissionRepo.getSubmissionByUser(userId)
+    console.log("result" , data)
+    res.render('submitList', {userInfo, data})
+  } catch(error) {
+    res.status(400).json({message: "find submit by user wrong"})
+  }
+}
+
+const countSubmissionByUser = async (req, res) => {
+  let userId = req.params.userId
+  try{
+    let count = await submissionRepo.countSubmitByUser(userId)
+    res.status(200).json({count})
   } catch (error) {
     res.status(400).json({message: "something wrong"})
   }
@@ -31,11 +55,12 @@ const getAllSubmissions = async (req, res) => {
 
 const getAllFeedbacks = async (req, res) => {
   try {
+    userInfo = req.userInfo
     let data = await feedbackRepo.getAllFeedBacks()
-    res.status(200).json({data})
+    res.render('feedbackList', {userInfo, data})
   } catch (error) {
     res.status(400).json({message: "something wrong"})
   }
 }
 
-module.exports = {getAllUsers, getAllSubmissions, getAllFeedbacks, getResultByUser}
+module.exports = {getAllUsers, getAllSubmissions, getAllFeedbacks, getResultByUser, getSubmissionByUser, countSubmissionByUser}

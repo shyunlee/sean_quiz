@@ -5,23 +5,24 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <link rel="stylesheet" href="./css/feedback.css">
+  <link rel="stylesheet" href="./css/style.css">
   <title>Feedback</title>
 </head>
 <body>
   {{>nav}}
   <main class="main">
-    <section>
+    <section class="user_feedback">
       <form>
+        <h1>Leave Feedback</h1>
         <div class="star_div"></div>
-        <textarea name="" id="feedback_content" cols="50" rows="10"></textarea>
-        <div><button class="submit_btn btn">Submit</button></div>
+        <textarea name="" id="feedback_content" cols="80" rows="15"></textarea>
+        <div class="submit_div"><button class="btn_submit btn">Submit</button></div>
       </form>
     </section>
   </main>
   <script>
     $(document).ready(function () {
-      let stars
+      let stars = 3 
       let starContainer = $('.star_container') 
       let starDiv = $('.star_div') 
       function starRating(count) {
@@ -45,7 +46,7 @@
         starDiv.append(starRating(starId))
       })
 
-      $('.submit_btn').on('click', (e) => {
+      $('.btn_submit').on('click', (e) => {
         e.preventDefault()
         let content = $('#feedback_content').val()
 

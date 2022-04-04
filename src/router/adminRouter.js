@@ -12,6 +12,12 @@ router.get('/users/:userId', adminController.getResultByUser)
 // view all submission list 
 router.get('/submission', adminController.getAllSubmissions)
 
+// view submissions by a specific user
+router.get('/submission/:userId', adminController.getSubmissionByUser)
+
+// get submission count by user
+router.get('/submission/count/:userId', adminController.countSubmissionByUser)
+
 // view all feedback list
 router.get('/feedback', adminController.getAllFeedbacks)
 
